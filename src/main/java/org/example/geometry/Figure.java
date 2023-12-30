@@ -1,5 +1,8 @@
 package org.example.geometry;
 
+import lombok.Getter;
+
+@Getter
 public abstract class Figure {
     Point point;
 

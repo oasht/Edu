@@ -1,6 +1,6 @@
 package org.example.geometry;//import example_1_1_1.Point;
 
-public class Line {
+public class Line implements Measurable{
   private Point first;
    private Point second;
 
@@ -30,10 +30,10 @@ public class Line {
         this.second = new Point(second.x, second.y);
     }
 
-    public int length() {
-        int cath1 = Math.abs(second.y - first.y);
-        int cath2 = Math.abs(second.x - first.x);
-        return (int)Math.hypot(cath1, cath2);
+    public double length() {
+        double cath1 = Math.abs(second.y - first.y);
+        double cath2 = Math.abs(second.x - first.x);
+        return (double)Math.hypot(cath1, cath2);
     }
     @Override
     public String toString() {

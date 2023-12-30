@@ -3,7 +3,7 @@ package org.example.geometry;
 import lombok.ToString;
 
 @ToString
-public class Triangle extends Figure {
+public class Triangle extends Figure implements Chainable{
     private Point two;
     private Point three;
 
@@ -19,6 +19,14 @@ public class Triangle extends Figure {
                 (two.y + point.y) * (point.x - two.x) +
                         (point.y + three.y) * (three.x - point.x) -
                         (two.y + three.y) * (three.x - two.x))
+        );
+    }
+    @Override
+    public PolyLine getLine() {
+        return new ClosedPolyLine(
+                getPoint(),
+                two,
+                three
         );
     }
 }

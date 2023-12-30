@@ -6,7 +6,7 @@ public class ClosedPolyLine extends PolyLine {
     }
 
     @Override
-    public int length() {
+    public double length() {
         return super.length() + new Line(points.get(0),points.get(points.size()-1)).length();
     }
 }

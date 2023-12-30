@@ -1,7 +1,6 @@
 package org.example.geometry;
 
-public class Rectangle extends Figure {
-    private Point leftupPoint;
+public class Rectangle extends Figure implements Chainable {
     private int firstSide;
     private int secondSide;
 
@@ -14,7 +13,16 @@ public class Rectangle extends Figure {
     public boolean isSquare(){
         return firstSide == secondSide;
     }
-
+    @Override
+    public PolyLine getLine() {
+        PolyLine line = new ClosedPolyLine(
+                getPoint(),
+                new Point(getPoint().x + firstSide, getPoint().y),
+                new Point(getPoint().x + firstSide, getPoint().y - secondSide),
+                new Point(getPoint().x, getPoint().y - secondSide)
+        );
+        return line;
+    }
     @Override
     public double area() {
         return firstSide * secondSide;
