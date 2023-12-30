@@ -3,17 +3,14 @@ package org.example.main;
 import lombok.extern.log4j.Log4j2;
 import org.example.cities.City;
 import org.example.cities.SmartCity;
-import org.example.entities.Cat;
 import org.example.entities.Meowable;
 import org.example.entities.birds.Bird;
-import org.example.geometry.Chainable;
-import org.example.geometry.Figure;
-import org.example.geometry.Measurable;
-import org.example.geometry.PolyLine;
-import org.example.geometry.Point;
+import org.example.geometry.*;
 
 import java.util.Collection;
 import java.util.List;
+
+import static java.lang.Math.pow;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -29,7 +26,16 @@ public class Main {
 
         // create_and_print_cities();
 
-        meow(new Cat("a"), new Cat("b"));
+        // meow(new Cat("a"), new Cat("b"));
+
+//        Scanner sc = new Scanner(System.in);
+//        String a = sc.nextLine();
+//        String b = sc.nextLine();
+//        log.info(myPow(a,b));
+       // if (args.length >= 2) log.info(myPow(args[0], args[1]));
+
+        Point p1=new Point(0,1);
+        java.awt.Point p2=new java.awt.Point(2,3);
     }
 
 
@@ -97,11 +103,14 @@ public class Main {
 
         PolyLine res = new PolyLine();
         for (Chainable ch : chainables) {
-            for(Point point : ch.getLine().getPoints()){
+            for (Point point : ch.getLine().getPoints()) {
                 res.adding(point);
             }
         }
-        return  res;
+        return res;
     }
 
+    public static double myPow(String x, String y) {
+        return pow(Integer.parseInt(x), Integer.parseInt(y));
+    }
 }
