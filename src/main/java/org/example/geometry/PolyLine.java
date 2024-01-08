@@ -2,10 +2,7 @@ package org.example.geometry;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Getter
 public class PolyLine implements Measurable {
@@ -33,7 +30,13 @@ public class PolyLine implements Measurable {
         }
         return sum;
     }
-
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        PolyLine p = (PolyLine) obj;
+        return Objects.equals(points, p.points);
+    }
     public String toString() {
         return "Line" + points;
     }

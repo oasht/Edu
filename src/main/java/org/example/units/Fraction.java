@@ -1,6 +1,6 @@
 package org.example.units;
 
-public final class Fraction extends Number {
+public final class Fraction extends Number implements Cloneable {
     private final int numerator;
     private final int denominator;
 
@@ -49,6 +49,21 @@ public final class Fraction extends Number {
         return this.multiply(new Fraction(fraction.denominator, fraction.numerator));
     }
 
+    public boolean equals(Object obj){
+        if(this==obj)return true;
+        if(obj==null)return false;
+        if(getClass()!=obj.getClass()) return false;
+        Fraction f=(Fraction)obj;
+        return this.numerator == f.numerator && this.denominator == f.denominator;
+    }
+@Override
+public Object clone(){
+    try {
+        return (Fraction) super.clone();
+    } catch (CloneNotSupportedException e) {
+        throw new AssertionError();
+    }
+}
     @Override
     public String toString() {
         return numerator + "/" + denominator;
