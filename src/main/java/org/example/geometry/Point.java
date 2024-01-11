@@ -1,5 +1,7 @@
 package org.example.geometry;
 
+import java.util.Objects;
+
 public class Point implements Cloneable{
     public int x;
     public int y;
@@ -17,16 +19,20 @@ public class Point implements Cloneable{
         return this.x == p.x && this.y == p.y;
     }
     @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+    @Override
     public String toString() {
         return "{" + x +";"+ y +
                 "}";}
 
     @Override
-    public Object clone() {
+    public Point clone() {
         try {
             return (Point) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+            throw new RuntimeException(e);
         }
     }
 }

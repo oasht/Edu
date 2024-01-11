@@ -62,7 +62,13 @@ public class City {
         if(this==obj)return true;
         if(!(obj instanceof City))return false;
         City city = (City) obj;
-        return Objects.equals(name, city.name) && Objects.equals(roads, city.roads);
+        return Objects.equals(name, city.name)
+                && roads.containsAll(city.roads)
+                &&city.roads.size()== roads.size();
+    }
+    @Override
+    public int hashCode(){
+        return Objects.hash(name, roads);
     }
     @Override
     public String toString() {

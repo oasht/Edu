@@ -1,6 +1,6 @@
 package org.example.geometry;//import example_1_1_1.Point;
 
-import org.example.units.Fraction;
+import java.util.Objects;
 
 public class Line implements Measurable, Cloneable{
   private Point first;
@@ -46,13 +46,20 @@ public class Line implements Measurable, Cloneable{
         return this.first.x == l.first.x && this.first.y == l.first.y &&
                 this.second.x == l.second.x && this.second.y == l.second.y;
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second);
+    }
 
     @Override
-    public Object clone(){
+    public Line clone(){
         try {
-            return (Line) super.clone();
+            Line line =(Line) super.clone();
+            line.first=line.first.clone();
+            line.second=line.second.clone();
+            return line;
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
+            throw new RuntimeException(e);
         }
     }
     @Override

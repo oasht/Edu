@@ -1,5 +1,7 @@
 package org.example.units;
 
+import java.util.Objects;
+
 public final class Fraction extends Number implements Cloneable {
     private final int numerator;
     private final int denominator;
@@ -56,8 +58,13 @@ public final class Fraction extends Number implements Cloneable {
         Fraction f=(Fraction)obj;
         return this.numerator == f.numerator && this.denominator == f.denominator;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numerator, denominator);
+    }
 @Override
-public Object clone(){
+public Fraction clone(){
     try {
         return (Fraction) super.clone();
     } catch (CloneNotSupportedException e) {

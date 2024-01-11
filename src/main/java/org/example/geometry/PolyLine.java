@@ -37,6 +37,10 @@ public class PolyLine implements Measurable {
         PolyLine p = (PolyLine) obj;
         return Objects.equals(points, p.points);
     }
+    @Override
+    public int hashCode() {
+        return Objects.hash(points);
+    }
     public String toString() {
         return "Line" + points;
     }
