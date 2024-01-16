@@ -53,9 +53,10 @@ public class Main {
 //        PolyLine l2=new PolyLine(new Point(3,2), new Point(3,3));
 //        System.out.println(l1.equals(l2));
 
-        Line l1=new Line(new Point(3,2), new Point(3,3));
-        Line clone=(Line)l1.clone();
-        System.out.println(clone);
+//        Line l1=new Line(new Point(3,2), new Point(3,3));
+//        Line clone=(Line)l1.clone();
+//        System.out.println(clone);
+
 
 
 

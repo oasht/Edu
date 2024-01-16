@@ -1,9 +1,11 @@
 package org.example.entities;
 
+import org.example.units.Comparable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student {
+public class Student implements Comparable<Student>{
     private String name;
    private List<Integer> grades=new ArrayList<>();
 
@@ -61,7 +63,13 @@ public class Student {
             return false;
         return true;
     }
+    @Override
+    public int compare(Student st) {
+        double thisMiddleGrade = this.getMiddleGrade();
+        double otherMiddleGrade = st.getMiddleGrade();
 
+        return Double.compare(thisMiddleGrade, otherMiddleGrade);
+    }
     @Override
     public String toString() {
         if (grades.isEmpty())
