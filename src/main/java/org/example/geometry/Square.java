@@ -1,6 +1,6 @@
 package org.example.geometry;
 
-public class Square extends Figure implements Chainable {
+public class Square extends Figure implements Chainable,Moveable {
     private int length;
 
     public Square(Point leftupPoint, int length) {
@@ -27,13 +27,18 @@ public class Square extends Figure implements Chainable {
 
     @Override
     public String toString() {
-        return "Square starts at " + getPoint() +
+        return "Square starts with " + getPoint() +
                 " and it's length=" + length;
     }
 
     @Override
     public double area() {
         return length * length;
+    }
+
+    @Override
+    public void move(int deltaX, int deltaY) {
+        getPoint().move(deltaX, deltaY);
     }
 
     @Override

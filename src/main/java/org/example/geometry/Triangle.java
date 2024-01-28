@@ -3,7 +3,7 @@ package org.example.geometry;
 import lombok.ToString;
 
 @ToString
-public class Triangle extends Figure implements Chainable{
+public class Triangle extends Figure implements Chainable, Moveable{
     private Point two;
     private Point three;
 
@@ -13,6 +13,12 @@ public class Triangle extends Figure implements Chainable{
         this.three = three;
     }
 
+    @Override
+    public void move(int deltaX, int deltaY) {
+        getPoint().move(deltaX, deltaY);
+        two.move(deltaX, deltaY);
+        three.move(deltaX, deltaY);
+    }
     @Override
     public double area() {
         return Math.abs((1.0 / 2) * (
@@ -28,5 +34,10 @@ public class Triangle extends Figure implements Chainable{
                 two,
                 three
         );
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle starts with " + getPoint() + " with vertices " + two + ", " + three;
     }
 }

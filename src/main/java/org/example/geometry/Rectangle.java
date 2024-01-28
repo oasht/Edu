@@ -1,6 +1,6 @@
 package org.example.geometry;
 
-public class Rectangle extends Figure implements Chainable {
+public class Rectangle extends Figure implements Chainable,Moveable {
     private int firstSide;
     private int secondSide;
 
@@ -9,7 +9,7 @@ public class Rectangle extends Figure implements Chainable {
         this.firstSide = firstSide;
         this.secondSide = secondSide;
     }
-    
+
     public boolean isSquare(){
         return firstSide == secondSide;
     }
@@ -22,6 +22,11 @@ public class Rectangle extends Figure implements Chainable {
                 new Point(getPoint().x, getPoint().y - secondSide)
         );
         return line;
+    }
+
+    @Override
+    public void move(int deltaX, int deltaY) {
+        getPoint().move(deltaX, deltaY);
     }
     @Override
     public double area() {

@@ -2,19 +2,24 @@ package org.example.geometry;//import example_1_1_1.Point;
 
 import java.util.Objects;
 
-public class Line<T extends Point> implements Measurable, Cloneable {
+public class Line<T extends Point> implements Measurable, Cloneable, Moveable {
     private T first;
     private T second;
 
-    public Line(T first, T second) {
+    private Line(T first, T second) {
         this.first = first;
         this.second = second;
     }
 
-//    public Line(int x, int y, int z, int w) {
-//        this(new Point(x, y), new Point(z, w));
-//
-//    }
+    public static <E extends Point> Line <E> of(E first, E second){
+        return new Line<>(first, second);
+    }
+
+
+    public static  Line <Point> of(int x, int y, int x2, int y2) {
+        return new Line<> (new Point(x, y), new Point(x2, y2));
+
+    }
 
     public T getFirst() {
         return first;
@@ -32,19 +37,27 @@ public class Line<T extends Point> implements Measurable, Cloneable {
         this.second = second;
     }
 
+
+    @Override
+    public void move(int deltaX, int deltaY) {
+        first.move(deltaX, deltaY);
+        second.move(deltaX, deltaY);
+    }
+
     public double length() {
-        double cath1 = Math.abs(second.y - first.y);
-        double cath2 = Math.abs(second.x - first.x);
-        return (double) Math.hypot(cath1, cath2);
+        return first.distanceTo(second);
     }
 
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-        Line l = (Line) obj;
-        return this.first.x == l.first.x && this.first.y == l.first.y &&
-                this.second.x == l.second.x && this.second.y == l.second.y;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Line<T> line = (Line<T>) obj;
+
+        if (!first.getClass().equals(line.first.getClass()) || !second.getClass().equals(line.second.getClass())) {
+            throw new IllegalArgumentException("Несовместимые типы точек для сравнения линий.");
+        }
+
+        return Objects.equals(first, line.first) && Objects.equals(second, line.second);
     }
 
     @Override
@@ -53,11 +66,12 @@ public class Line<T extends Point> implements Measurable, Cloneable {
     }
 
     @Override
-    public Line clone() {
+    public Line<T> clone() {
         try {
-            Line line = (Line) super.clone();
-            line.first = line.first.clone();
-            line.second = line.second.clone();
+            Line<T> line = (Line<T>) super.clone();
+            line.first = (T) line.first.clone();
+            line.second = (T) line.second.clone();
+
             return line;
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
@@ -66,6 +80,6 @@ public class Line<T extends Point> implements Measurable, Cloneable {
 
     @Override
     public String toString() {
-        return "Линия от " + first + " до " + second + "";
+        return "Line with " + first + " to " + second + "";
     }
 }

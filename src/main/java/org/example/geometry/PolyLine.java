@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.*;
 
 @Getter
-public class PolyLine implements Measurable {
+public class PolyLine implements Measurable, Moveable {
     List<Point> points;
 
     public PolyLine(Point... points) {
@@ -24,11 +24,18 @@ public class PolyLine implements Measurable {
         double sum = 0;
         if (points.size() > 1) {
             for (int i = 1; i < points.size(); i++) {
-                sum += new Line(points.get(i - 1), points.get(i)).length();
+                sum += Line.of(points.get(i - 1), points.get(i)).length();
             }
             return sum;
         }
         return sum;
+    }
+
+    @Override
+    public void move(int deltaX, int deltaY) {
+        for (Point point : points) {
+            point.move(deltaX, deltaY);
+        }
     }
     public boolean equals(Object obj) {
         if (this == obj) return true;
