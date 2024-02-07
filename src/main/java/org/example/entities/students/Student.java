@@ -1,13 +1,27 @@
-package org.example.entities;
+package org.example.entities.students;
 
+import lombok.Getter;
 import org.example.units.Comparable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Student implements Comparable<Student>{
+    @Getter
     private String name;
-   private List<Integer> grades=new ArrayList<>();
+   private final List<Integer> grades=new ArrayList<>();
+    private UndoStrategy undoStrategy;
+    @Getter
+    private Integer lastRemovedGrade;
+
+    private String originalName;
+
+
+
+    public Student(String name) {
+        this.name = name;
+        this.originalName=name;
+    }
 
     public Student(String name, int... args) {
         this.name = name;
@@ -20,12 +34,10 @@ public class Student implements Comparable<Student>{
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
+        originalName = this.name;
         this.name = name;
+        undoStrategy = new ChangeNameStrategy(this, originalName);
     }
 
     public List<Integer> getGrades() {
@@ -44,6 +56,25 @@ public class Student implements Comparable<Student>{
             }  else throw new IllegalArgumentException();
 
         }
+    }
+    public void removeGrade(int index) {
+        if (index >= 0 && index < grades.size()) {
+            lastRemovedGrade = grades.remove(index);
+            undoStrategy = new RemoveGradeStrategy(this, index);
+        } else {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+    }
+
+    public void undo() {
+        if (undoStrategy != null) {
+            undoStrategy.undo();
+            undoStrategy = null;
+        }
+    }
+
+    public Save getSave() {
+        return new Save(originalName, grades);
     }
 
     public double getMiddleGrade() {
