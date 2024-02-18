@@ -32,6 +32,7 @@ public class StreamTest {
         System.out.println(polyline);
     }
 
+
     @Test
     void StreamContactsTest(){
         Map<String, Integer> contacts = new HashMap<>();
