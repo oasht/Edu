@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class StreamTest {
-
+public class StreamTestNew {
     @Test
     void StreamPointTest(){
         List<Point> points = List.of(
@@ -54,6 +53,4 @@ public class StreamTest {
     private static String toTitleCase(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
-
-    }
-
+}
