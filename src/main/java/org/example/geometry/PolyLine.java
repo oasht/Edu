@@ -49,6 +49,6 @@ public class PolyLine implements Measurable, Moveable {
         return Objects.hash(points);
     }
     public String toString() {
-        return "Line" + points;
+        return "Polyline" + points;
     }
 }

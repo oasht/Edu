@@ -13,7 +13,7 @@ class UtilsTest {
     //5.2.1
     @Test
     void testMoveLine() {
-        Line<Point3D> line = new Line<>(new Point3D(-5, 1, 0), new Point3D(0, 1, 0));
+        Line<Point3D> line = Line.of(new Point3D(-5, 1, 0), new Point3D(0, 1, 0));
         Utils.movePoints(line);
         System.out.println(line);
     }
