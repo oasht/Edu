@@ -3,24 +3,22 @@ package org.example.entities.students;
 import lombok.Getter;
 import org.example.units.Comparable;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class Student implements Comparable<Student>{
     @Getter
     private String name;
    private final List<Integer> grades=new ArrayList<>();
-    private UndoStrategy undoStrategy;
-    @Getter
-    private Integer lastRemovedGrade;
+   private Deque<Action> actions=new ArrayDeque();
 
-    private String originalName;
 
 
 
     public Student(String name) {
         this.name = name;
-        this.originalName=name;
     }
 
     public Student(String name, int... args) {
@@ -35,11 +33,14 @@ public class Student implements Comparable<Student>{
     }
 
     public void setName(String name) {
-        originalName = this.name;
+        String tmp=this.name;
+        actions.push(()->this.name=tmp);
         this.name = name;
-        undoStrategy = new ChangeNameStrategy(this, originalName);
     }
 
+    public void undo(){
+        actions.pop().make();
+    }
     public List<Integer> getGrades() {
         return new ArrayList<>(grades);
     }
@@ -50,32 +51,22 @@ public class Student implements Comparable<Student>{
     }
 
     public void addGrade(int... grades) {
+
         for (int grade : grades) {
             if (checkGrade(grade)) {
                 this.grades.add(grade);
-            }  else throw new IllegalArgumentException();
-
+                int index = this.grades.size() - 1;
+                actions.push(() -> this.grades.remove(index));
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
     }
-    public void removeGrade(int index) {
-        if (index >= 0 && index < grades.size()) {
-            lastRemovedGrade = grades.remove(index);
-            undoStrategy = new RemoveGradeStrategy(this, index);
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index");
-        }
-    }
-
-    public void undo() {
-        if (undoStrategy != null) {
-            undoStrategy.undo();
-            undoStrategy = null;
-        }
-    }
-
-    public Save getSave() {
-        return new Save(originalName, grades);
-    }
+public void removeGrade(int index){
+        int grade=grades.get(index);
+        actions.push(()->grades.add(index, grade));
+        this.grades.remove(index);
+}
 
     public double getMiddleGrade() {
         int sum = 0;
@@ -106,5 +97,21 @@ public class Student implements Comparable<Student>{
         if (grades.isEmpty())
             return name + " без оценок";
         return name + ":" + grades;
+    }
+
+    public Save getSave(){
+        return new SaveImpl();
+    }
+    private class SaveImpl implements Save{
+        String name=Student.this.name;
+        List<Integer> grades=new ArrayList<>(Student.this.grades);
+
+        @Override
+        public void load(){
+            Student.this.name=name;
+            Student.this.grades.clear();
+            Student.this.grades.addAll(grades);
+        }
+
     }
 }
