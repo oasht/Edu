@@ -12,6 +12,10 @@ public class PolyLine implements Measurable, Moveable {
         this.points = new ArrayList<>(Arrays.asList(points));
     }
 
+    public PolyLine(List<Point> points) {
+        this.points = new ArrayList<>(points);
+    }
+
     public void adding(Point... points_new) {
         Collections.addAll(this.points, points_new);
     }

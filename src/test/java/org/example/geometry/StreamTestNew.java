@@ -2,10 +2,9 @@ package org.example.geometry;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StreamTestNew {
@@ -20,25 +19,19 @@ public class StreamTestNew {
                 new Point(5, 6)
         );
 
-        List<Point> distinctPoints = points.stream()
+        PolyLine polyline = points.stream()
                 .distinct()
                 .sorted(Comparator.comparingInt(p -> p.x))
                 .map(p -> new Point(p.x, Math.abs(p.y)))
-                .toList();
+                .collect(Collectors.collectingAndThen(Collectors.toList(), PolyLine::new));
 
-        PolyLine polyline = new PolyLine();
-        polyline.adding(distinctPoints);
         System.out.println(polyline);
     }
 
 
     @Test
     void StreamContactsTest(){
-        Map<String, Integer> contacts = new HashMap<>();
-        contacts.put("Вася", 5);
-        contacts.put("Петя", 3);
-        contacts.put("Аня", 5);
-        contacts.put("Антон", null);
+        Map<String, Integer> contacts = readContactsFromFile("contacts.txt");
 
         Map<Integer, String> result = contacts.entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
@@ -48,6 +41,24 @@ public class StreamTestNew {
                                 Collectors.joining(", ", "[", "]"))));
 
         System.out.println(result);
+    }
+
+    private static Map<String, Integer> readContactsFromFile(String filename) {
+        Map<String, Integer> contacts = new HashMap<>();
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(":");
+                if (parts.length == 2) {
+                    String name = parts[0].trim();
+                    Integer number = Integer.parseInt(parts[1].trim());
+                    contacts.put(name, number);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return contacts;
     }
 
     private static String toTitleCase(String str) {
